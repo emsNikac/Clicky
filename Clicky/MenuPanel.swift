@@ -53,6 +53,12 @@ struct MenuPanel: View {
                 }
                 .padding(20)
             }
+            if showingSettings {
+                settingsPreview
+                    .padding(.horizontal, 20).padding(.vertical, 12)
+                    .background(ClickyTheme.background)
+                    .overlay(alignment: .top) { Divider().opacity(0.4) }
+            }
             footer
         }
         .frame(width: 390, height: 690)
@@ -65,11 +71,9 @@ struct MenuPanel: View {
 
     private var header: some View {
         HStack(spacing: 10) {
-            ZStack {
-                RoundedRectangle(cornerRadius: 10).fill(ClickyTheme.accent.opacity(0.12))
-                Image(systemName: "keyboard").font(.system(size: 20, weight: .medium))
-                    .foregroundStyle(ClickyTheme.accent)
-            }.frame(width: 40, height: 40)
+            Image(nsImage: NSApp.applicationIconImage)
+                .resizable().scaledToFit().frame(width: 40, height: 40)
+                .accessibilityHidden(true)
             VStack(alignment: .leading, spacing: 3) {
                 Text("Clicky").font(.system(size: 23, weight: .bold, design: .rounded)).tracking(-0.7)
                 Text("A little more character.").font(.system(size: 10)).foregroundStyle(ClickyTheme.muted)
@@ -292,10 +296,6 @@ struct MenuPanel: View {
                     Text(error).font(.system(size: 10)).foregroundStyle(ClickyTheme.accent)
                 }
             }.toggleStyle(.switch).controlSize(.small)
-            Button { controller.preview() } label: {
-                Label("Preview your settings", systemImage: "play.fill")
-                    .font(.system(size: 12, weight: .semibold)).frame(maxWidth: .infinity).padding(.vertical, 7)
-            }.buttonStyle(.bordered).disabled(controller.isLoading || controller.audioError != nil)
             VStack(alignment: .leading, spacing: 7) {
                 Text("REAL RECORDINGS. LOCAL PLAYBACK.")
                     .font(.system(size: 9, weight: .bold)).tracking(1).foregroundStyle(ClickyTheme.accent)
@@ -307,6 +307,11 @@ struct MenuPanel: View {
                     .font(.system(size: 10)).foregroundStyle(ClickyTheme.muted)
             }
         }
+    }
+
+    private var settingsPreview: some View {
+        SettingsPreviewButton(isLoading: controller.isLoading, isPlaying: controller.isPreviewing,
+                              hasAudioError: controller.audioError != nil) { controller.preview() }
     }
 
     private func settingSlider(_ title: String, detail: String, value: Binding<Double>, low: String, high: String) -> some View {
@@ -346,6 +351,31 @@ struct MenuPanel: View {
         }
         .padding(.horizontal, 20).padding(.vertical, 10)
         .overlay(alignment: .top) { Divider().opacity(0.4) }
+    }
+}
+
+struct SettingsPreviewButton: View {
+    let isLoading: Bool
+    let isPlaying: Bool
+    let hasAudioError: Bool
+    let action: () -> Void
+
+    private var isAvailable: Bool { !isLoading && !hasAudioError }
+
+    var body: some View {
+        Button(action: action) {
+            Label(isLoading ? "Loading recordings…" : isPlaying ? "Playing preview…" : "Preview your settings",
+                  systemImage: isPlaying ? "waveform" : "play.fill")
+                .font(.system(size: 12, weight: .semibold))
+                .foregroundStyle(isAvailable ? ClickyTheme.background : ClickyTheme.text)
+                .frame(maxWidth: .infinity, minHeight: 40)
+                .background(isAvailable ? ClickyTheme.accent : ClickyTheme.elevated,
+                            in: RoundedRectangle(cornerRadius: 10))
+                .contentShape(RoundedRectangle(cornerRadius: 10))
+        }
+        .buttonStyle(.plain)
+        .disabled(!isAvailable)
+        .accessibilityLabel("Preview your settings")
     }
 }
 

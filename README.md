@@ -9,6 +9,7 @@ Click the keyboard icon in the menu bar. Allow **Clicky** under **System Setting
 - Physical left/right key positioning and row-specific recordings.
 - Separate press/release and space/return/delete samples where available.
 - Volume, spatial width, bright/deep tone, release level, and subtle pitch variation.
+- Defaults: 85% spatial width, 100% deep tone, 100% key release, and natural variation on. Saved user settings take precedence.
 - Gradient volume follows macOS volume. Constant volume compensates for system volume changes, keeping the loudness captured when enabled.
 - 32 overlapping audio voices, predecoded samples, and a peak limiter.
 - Persistent settings, optional start at login, and **Control–Option–Command–M** to pause.

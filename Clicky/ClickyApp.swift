@@ -8,7 +8,13 @@ struct ClickyApp: App {
         MenuBarExtra {
             MenuPanel(controller: controller)
         } label: {
-            Image(systemName: controller.isEnabled ? "keyboard" : "keyboard.badge.ellipsis")
+            Image("ClickyMark")
+                .renderingMode(.template)
+                .resizable()
+                .scaledToFit()
+                .frame(width: 18, height: 18)
+                .opacity(controller.isEnabled ? 1 : 0.45)
+                .help(controller.isEnabled ? "Clicky is on" : "Clicky is paused")
                 .accessibilityLabel(controller.isEnabled ? "Clicky is on" : "Clicky is paused")
         }
         .menuBarExtraStyle(.window)

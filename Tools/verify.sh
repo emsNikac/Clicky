@@ -34,7 +34,14 @@ for name, entry in manifest["files"].items():
 assert "Copyright (c) Thomas Lai" in (resources / "KBSIM-LICENSE.txt").read_text()
 info = plistlib.loads((app / "Contents" / "Info.plist").read_bytes())
 assert info["LSUIElement"] is True, "App must stay in the menu bar."
+assert info["CFBundleIconName"] == "AppIcon", "App icon is not configured."
+icon = resources / info["CFBundleIconFile"]
+if not icon.suffix:
+    icon = icon.with_suffix(".icns")
+assert icon.is_file() and icon.stat().st_size > 0, "Compiled macOS icon is missing."
+assert (resources / "Assets.car").is_file(), "Menu bar image assets are missing."
 print("PASS: bundled recording integrity, license, and menu bar configuration.")
+print("PASS: compiled macOS icon and image asset catalog.")
 PY
 xcrun swiftc -parse-as-library -module-cache-path "$scratch/ModuleCache" \
     Clicky/SwitchProfile.swift Clicky/PhysicalKeyboard.swift Clicky/RecordingDecoder.swift \

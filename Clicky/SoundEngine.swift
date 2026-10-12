@@ -4,9 +4,9 @@ import AudioToolbox
 struct PlaybackSettings: Sendable {
     var volume: Float = 0.6
     var volumeMode: VolumeMode = .gradient
-    var width: Float = 0.65
-    var depth: Float = 0.5
-    var releaseLevel: Float = 0.5
+    var width: Float = 0.85
+    var depth: Float = 1
+    var releaseLevel: Float = 1
     var variation = true
 }
 

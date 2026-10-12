@@ -15,9 +15,9 @@ final class AppController {
     var volumeMode = VolumeMode(rawValue: UserDefaults.standard.string(forKey: "volumeMode") ?? "") ?? .gradient {
         didSet { UserDefaults.standard.set(volumeMode.rawValue, forKey: "volumeMode"); configureAudio() }
     }
-    var spatialWidth = preference("width", fallback: 0.65) { didSet { save("width", spatialWidth) } }
-    var depth = preference("depth", fallback: 0.5) { didSet { save("depth", depth) } }
-    var releaseLevel = preference("release", fallback: 0.5) { didSet { save("release", releaseLevel) } }
+    var spatialWidth = preference("width", fallback: 0.85) { didSet { save("width", spatialWidth) } }
+    var depth = preference("depth", fallback: 1) { didSet { save("depth", depth) } }
+    var releaseLevel = preference("release", fallback: 1) { didSet { save("release", releaseLevel) } }
     var naturalVariation = UserDefaults.standard.object(forKey: "variation") as? Bool ?? true {
         didSet { UserDefaults.standard.set(naturalVariation, forKey: "variation"); configureAudio() }
     }
