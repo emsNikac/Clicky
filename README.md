@@ -2,8 +2,20 @@
 
 A native macOS menu bar app that gives your keyboard the sound of mechanical switches.
 
-Open `Clicky.xcodeproj` in Xcode and run the **Clicky** scheme. Requires macOS 15.7 or newer.
-Click the C icon in the menu bar. Allow **Clicky** under **System Settings → Privacy & Security → Input Monitoring** for sounds in other applications. Quit and reopen Clicky if macOS requests it. Previews work without keyboard permission.
+## Download and install
+
+**[Download Clicky for macOS (.dmg)](https://github.com/emsNikac/Clicky/releases/latest/download/Clicky.dmg)**
+
+Requires **macOS 15.7 or newer**. [View all releases](https://github.com/emsNikac/Clicky/releases).
+
+1. Download and open **Clicky.dmg**.
+2. Drag **Clicky.app** into **Applications**, then eject the disk image.
+3. Open **Clicky** from Applications and click the **C** icon in the menu bar.
+4. Allow **Clicky** under **System Settings → Privacy & Security → Input Monitoring** for sounds in other applications. Quit and reopen Clicky if macOS requests it. Previews work without keyboard permission.
+
+The current release is not notarized by Apple. If macOS blocks the first launch and you trust this download, go to **System Settings → Privacy & Security → Open Anyway**, then confirm **Open**. See [Apple's instructions](https://support.apple.com/en-us/102445).
+
+## Features
 
 - 13 recorded switch profiles, searchable by name and sound character.
 - Physical left/right key positioning and row-specific recordings.
@@ -24,6 +36,10 @@ Volume controls start **Locked**, with a default threshold of **3/16**. Click **
 The output's 16-stage dB lookup is built by inverting its native dB-to-slider conversion and cached until the output or its control configuration changes. This handles the built-in output's nonlinear mapping without relying on its inconsistent forward conversion or treating slider positions as linear audio gains. The current output volume is checked on volume notifications and before each key sound. Outputs with only slider volume use a ratio fallback; outputs with no readable volume control cannot enforce the threshold. These are software checks against the device's reported gain, not acoustic speaker measurements. Clicky never changes system volume or accesses the microphone. System mute and zero output volume remain silent.
 
 Volume attenuation happens after tone shaping and peak limiting to preserve brightness and attack. Maximum output includes a fixed 9 dB boost before the limiter and output headroom for transient peaks.
+
+## Build from source
+
+Open `Clicky.xcodeproj` in Xcode and run the **Clicky** scheme.
 
 ## Recording credits
 
