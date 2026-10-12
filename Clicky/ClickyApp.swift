@@ -1,14 +1,16 @@
+import AppKit
 import SwiftUI
 
 @main
 struct ClickyApp: App {
+    @NSApplicationDelegateAdaptor(ClickyAppDelegate.self) private var appDelegate
     @State private var controller = AppController()
 
     var body: some Scene {
         MenuBarExtra {
             MenuPanel(controller: controller)
         } label: {
-            Image("ClickyMark")
+            Image(.clickyMark)
                 .renderingMode(.template)
                 .resizable()
                 .scaledToFit()
@@ -18,5 +20,11 @@ struct ClickyApp: App {
                 .accessibilityLabel(controller.isEnabled ? "Clicky is on" : "Clicky is paused")
         }
         .menuBarExtraStyle(.window)
+    }
+}
+
+final class ClickyAppDelegate: NSObject, NSApplicationDelegate {
+    func applicationWillFinishLaunching(_ notification: Notification) {
+        NSApp.applicationIconImage = NSImage(resource: .clickyLogo)
     }
 }

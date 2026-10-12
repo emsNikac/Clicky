@@ -9,11 +9,18 @@ final class SystemOutputMonitor: @unchecked Sendable {
         let block: AudioObjectPropertyListenerBlock
     }
 
+    private struct CurveCache {
+        let device: AudioObjectID
+        let element: AudioObjectPropertyElement
+        let stages: [Float]?
+    }
+
     private let queue: DispatchQueue
     private let onChange: @Sendable (SystemOutputVolume) -> Void
     private var listeners: [Listener] = []
     private var device = AudioObjectID(kAudioObjectUnknown)
     private var lastOutput: SystemOutputVolume?
+    private var curveCache: CurveCache?
 
     init(queue: DispatchQueue, onChange: @escaping @Sendable (SystemOutputVolume) -> Void) {
         self.queue = queue
@@ -29,13 +36,14 @@ final class SystemOutputMonitor: @unchecked Sendable {
         if newDevice != device || reinstallListeners {
             removeListeners()
             device = newDevice
+            curveCache = nil
             addListener(object: AudioObjectID(kAudioObjectSystemObject),
                         selector: kAudioHardwarePropertyDefaultOutputDevice,
                         scope: kAudioObjectPropertyScopeGlobal, element: kAudioObjectPropertyElementMain)
             if device != kAudioObjectUnknown {
                 for element in [AudioObjectPropertyElement(kAudioObjectPropertyElementMain)] + Self.stereoChannels(device) {
                     for selector in [kAudioDevicePropertyVolumeDecibels, kAudioDevicePropertyVolumeScalar,
-                                     kAudioDevicePropertyMute] {
+                                     kAudioDevicePropertyMute, kAudioDevicePropertyVolumeRangeDecibels] {
                         addListener(object: device, selector: selector,
                                     scope: kAudioDevicePropertyScopeOutput, element: element)
                     }
@@ -44,11 +52,47 @@ final class SystemOutputMonitor: @unchecked Sendable {
                             scope: kAudioDevicePropertyScopeOutput, element: kAudioObjectPropertyElementMain)
             }
         }
-        let output = Self.readSnapshot(device: device)
+        let output = Self.readSnapshot(device: device, curveCache: &curveCache)
         if output != lastOutput { lastOutput = output; onChange(output) }
     }
 
-    static func readSnapshot() -> SystemOutputVolume { readSnapshot(device: defaultOutputDevice()) }
+    static func readSnapshot() -> SystemOutputVolume {
+        var cache: CurveCache?
+        return readSnapshot(device: defaultOutputDevice(), curveCache: &cache)
+    }
+
+    static func stageCurve(minimum: Float, maximum: Float,
+                           decibelsToScalar: (Float) -> Float?) -> [Float]? {
+        guard minimum.isFinite, maximum.isFinite, minimum >= -160, maximum <= 24, minimum < maximum,
+              let lowScalar = decibelsToScalar(minimum), let highScalar = decibelsToScalar(maximum),
+              lowScalar.isFinite, highScalar.isFinite, lowScalar >= 0, lowScalar < highScalar,
+              lowScalar <= VolumeControls.scalar(for: 1), abs(highScalar - 1) <= 0.01 else { return nil }
+        var previous = lowScalar
+        for index in 1...VolumeControls.stageCount {
+            let decibels = minimum + (maximum - minimum) * Float(index) / Float(VolumeControls.stageCount)
+            guard let scalar = decibelsToScalar(decibels), scalar.isFinite,
+                  (0...1).contains(scalar), scalar >= previous else { return nil }
+            previous = scalar
+        }
+        var stages: [Float] = []
+        for stage in VolumeControls.stageRange {
+            let target = VolumeControls.scalar(for: stage)
+            var lower = minimum, upper = maximum
+            // Invert the device's dB-to-slider mapping. Some built-in drivers'
+            // forward conversion disagrees with their actual dB getter; the
+            // reverse conversion matches it. Do not assume slider positions
+            // are linear audio gains or linear dB values.
+            for _ in 0..<20 {
+                let middle = (lower + upper) / 2
+                guard let scalar = decibelsToScalar(middle), scalar.isFinite,
+                      (0...1).contains(scalar) else { return nil }
+                if scalar < target { lower = middle } else { upper = middle }
+            }
+            stages.append(stage == VolumeControls.stageCount ? maximum : (lower + upper) / 2)
+        }
+        guard zip(stages, stages.dropFirst()).allSatisfy({ $0 <= $1 }) else { return nil }
+        return stages
+    }
 
     private static func defaultOutputDevice() -> AudioObjectID {
         var address = AudioObjectPropertyAddress(mSelector: kAudioHardwarePropertyDefaultOutputDevice,
@@ -73,7 +117,7 @@ final class SystemOutputMonitor: @unchecked Sendable {
         return status == noErr ? Array(Set(channels)).sorted() : [1, 2]
     }
 
-    private static func readSnapshot(device: AudioObjectID) -> SystemOutputVolume {
+    private static func readSnapshot(device: AudioObjectID, curveCache: inout CurveCache?) -> SystemOutputVolume {
         guard device != kAudioObjectUnknown else { return SystemOutputVolume() }
         var address = AudioObjectPropertyAddress(mSelector: kAudioDevicePropertyDeviceUID,
                                                 mScope: kAudioObjectPropertyScopeGlobal,
@@ -89,22 +133,56 @@ final class SystemOutputMonitor: @unchecked Sendable {
         let channelMutes: [UInt32] = channels.compactMap {
             read(device, selector: kAudioDevicePropertyMute, element: $0, initial: UInt32(0))
         }
-        let masterScalar: Float32? = read(device, selector: kAudioDevicePropertyVolumeScalar,
-                                         element: kAudioObjectPropertyElementMain, initial: Float32(0))
+        let level = volumeLevel(device)
         let channelScalars: [Float32] = channels.compactMap {
             read(device, selector: kAudioDevicePropertyVolumeScalar, element: $0, initial: Float32(0))
         }
         let muted = masterMute == 1 ||
             (channelMutes.count == channels.count && channelMutes.allSatisfy { $0 == 1 }) ||
-            masterScalar.map { $0 <= 0 } == true ||
+            level.scalar.map { $0 <= 0 } == true ||
             (!channelScalars.isEmpty && channelScalars.allSatisfy { $0 <= 0 })
-        // Prefer a real master control; otherwise track the louder stereo channel.
-        let masterDB: Float32? = read(device, selector: kAudioDevicePropertyVolumeDecibels,
-                                     element: kAudioObjectPropertyElementMain, initial: Float32(0))
-        let channelDB: [Float32] = channels.compactMap {
-            read(device, selector: kAudioDevicePropertyVolumeDecibels, element: $0, initial: Float32(0))
+        if curveCache?.device != device || curveCache?.element != level.element {
+            let range: AudioValueRange? = read(device, selector: kAudioDevicePropertyVolumeRangeDecibels,
+                                               element: level.element, initial: AudioValueRange())
+            let stages = range.flatMap { range in
+                stageCurve(minimum: Float(range.mMinimum), maximum: Float(range.mMaximum)) {
+                    read(device, selector: kAudioDevicePropertyVolumeDecibelsToScalar,
+                         element: level.element, initial: $0)
+                }
+            }
+            curveCache = CurveCache(device: device, element: level.element, stages: stages)
         }
-        return SystemOutputVolume(deviceUID: deviceUID, decibels: masterDB ?? channelDB.max(), isMuted: muted)
+        var stages = curveCache?.stages
+        if let scalar = level.scalar, let decibels = level.decibels,
+           let converted: Float = read(device, selector: kAudioDevicePropertyVolumeDecibelsToScalar,
+                                       element: level.element, initial: decibels),
+           !converted.isFinite || abs(converted - scalar) > 0.01 {
+            stages = nil
+        }
+        return SystemOutputVolume(deviceUID: deviceUID, decibels: level.decibels, scalar: level.scalar,
+                                  stageDecibels: stages, isMuted: muted)
+    }
+
+    private static func volumeLevel(_ device: AudioObjectID)
+        -> (element: AudioObjectPropertyElement, scalar: Float?, decibels: Float?) {
+        func level(_ element: AudioObjectPropertyElement)
+            -> (element: AudioObjectPropertyElement, scalar: Float?, decibels: Float?) {
+            let scalar: Float? = read(device, selector: kAudioDevicePropertyVolumeScalar,
+                                      element: element, initial: Float(0))
+            let decibels: Float? = read(device, selector: kAudioDevicePropertyVolumeDecibels,
+                                        element: element, initial: Float(0))
+            return (element, scalar.flatMap { $0.isFinite && (0...1).contains($0) ? $0 : nil },
+                    decibels.flatMap { $0.isFinite && (-160...24).contains($0) ? $0 : nil })
+        }
+        // Read both representations from the same control. Mixing a master dB
+        // control with a channel's scalar would give the wrong compensation.
+        let master = level(kAudioObjectPropertyElementMain)
+        if master.scalar != nil || master.decibels != nil { return master }
+        let channels = stereoChannels(device).map(level)
+        if let loudest = channels.filter({ $0.decibels != nil }).max(by: { $0.decibels! < $1.decibels! }) {
+            return loudest
+        }
+        return channels.max { ($0.scalar ?? 0) < ($1.scalar ?? 0) } ?? master
     }
 
     private static func read<T>(_ device: AudioObjectID, selector: AudioObjectPropertySelector,
@@ -126,6 +204,7 @@ final class SystemOutputMonitor: @unchecked Sendable {
         let block: AudioObjectPropertyListenerBlock = { [weak self] count, addresses in
             let layoutChanged = (0..<Int(count)).contains {
                 addresses[$0].mSelector == kAudioDevicePropertyPreferredChannelsForStereo
+                    || addresses[$0].mSelector == kAudioDevicePropertyVolumeRangeDecibels
             }
             self?.refresh(reinstallListeners: layoutChanged)
         }

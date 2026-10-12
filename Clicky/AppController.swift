@@ -11,7 +11,32 @@ final class AppController {
             if !isEnabled { cancelPreview(); soundedKeys.removeAll(); activeKeys.removeAll() }
         }
     }
-    var volume = preference("volume", fallback: 0.6) { didSet { save("volume", volume) } }
+    private var volumeControls = VolumeControls(
+        volume: Float(preference("volume", fallback: 0.6)),
+        thresholdStage: UserDefaults.standard.object(forKey: "volumeThresholdStage") as? Int ?? VolumeControls.defaultThreshold,
+        isLocked: UserDefaults.standard.object(forKey: "volumeLocked") as? Bool ?? true)
+    var volume: Double {
+        get { Double(volumeControls.volume) }
+        set {
+            guard volumeControls.setVolume(Float(newValue)) else { return }
+            save("volume", volume)
+        }
+    }
+    var volumeThresholdStage: Int {
+        get { volumeControls.thresholdStage }
+        set {
+            guard volumeControls.setThresholdStage(newValue) else { return }
+            UserDefaults.standard.set(volumeThresholdStage, forKey: "volumeThresholdStage")
+            configureAudio()
+        }
+    }
+    var isVolumeLocked: Bool {
+        get { volumeControls.isLocked }
+        set {
+            volumeControls.isLocked = newValue
+            UserDefaults.standard.set(newValue, forKey: "volumeLocked")
+        }
+    }
     var volumeMode = VolumeMode(rawValue: UserDefaults.standard.string(forKey: "volumeMode") ?? "") ?? .gradient {
         didSet { UserDefaults.standard.set(volumeMode.rawValue, forKey: "volumeMode"); configureAudio() }
     }
@@ -217,7 +242,8 @@ final class AppController {
     }
 
     private func configureAudio() {
-        audio.configure(PlaybackSettings(volume: Float(volume), volumeMode: volumeMode, width: Float(spatialWidth),
+        audio.configure(PlaybackSettings(volume: Float(volume), volumeMode: volumeMode,
+                                         thresholdStage: volumeThresholdStage, width: Float(spatialWidth),
                                          depth: Float(depth), releaseLevel: Float(releaseLevel),
                                          variation: naturalVariation))
     }

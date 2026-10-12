@@ -8,12 +8,23 @@ if [[ -e "$scratch" ]]; then
     exit 1
 fi
 mkdir "$scratch"
-trap 'rm -rf "$scratch"' EXIT
+app="$scratch/DerivedData/Build/Products/Debug/Clicky.app"
+cleanup() {
+    # Xcode registers macOS build products even when code signing is disabled.
+    # Remove this disposable verification app before deleting its files.
+    if [[ -d "$app" ]]; then
+        /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister \
+            -u "$app" >/dev/null 2>&1 || true
+    fi
+    rm -rf "$scratch"
+}
+trap cleanup EXIT
 
 if ! xcodebuild -project Clicky.xcodeproj -scheme Clicky -configuration Debug \
     -destination 'platform=macOS' -derivedDataPath "$scratch/DerivedData" \
     -clonedSourcePackagesDirPath "$scratch/SourcePackages" \
     CODE_SIGNING_ALLOWED=NO COMPILER_INDEX_STORE_ENABLE=NO \
+    PRODUCT_BUNDLE_IDENTIFIER=com.projects.Clicky.verification \
     CLANG_MODULE_CACHE_PATH="$scratch/ModuleCache" \
     SWIFT_MODULE_CACHE_PATH="$scratch/ModuleCache" \
     build > "$scratch/build.log" 2>&1; then
@@ -21,7 +32,6 @@ if ! xcodebuild -project Clicky.xcodeproj -scheme Clicky -configuration Debug \
     exit 1
 fi
 echo "PASS: macOS application build."
-app="$scratch/DerivedData/Build/Products/Debug/Clicky.app"
 python3 - "$app" <<'PY'
 import hashlib, json, plistlib, sys
 from pathlib import Path
@@ -34,7 +44,8 @@ for name, entry in manifest["files"].items():
 assert "Copyright (c) Thomas Lai" in (resources / "KBSIM-LICENSE.txt").read_text()
 info = plistlib.loads((app / "Contents" / "Info.plist").read_bytes())
 assert info["LSUIElement"] is True, "App must stay in the menu bar."
-assert info["CFBundleIconName"] == "AppIcon", "App icon is not configured."
+assert info["CFBundleIconFile"] == "Clicky.icns", "System app icon is not configured."
+assert not info.get("CFBundleIconName"), "System icon must use the standalone ICNS resource."
 icon = resources / info["CFBundleIconFile"]
 if not icon.suffix:
     icon = icon.with_suffix(".icns")
@@ -45,7 +56,7 @@ print("PASS: compiled macOS icon and image asset catalog.")
 PY
 xcrun swiftc -parse-as-library -module-cache-path "$scratch/ModuleCache" \
     Clicky/SwitchProfile.swift Clicky/PhysicalKeyboard.swift Clicky/RecordingDecoder.swift \
-    Clicky/VolumeMode.swift Clicky/SystemOutputMonitor.swift \
-    Tests/VolumeModeChecks.swift Tests/AudioChecks.swift -o "$scratch/AudioChecks"
+    Clicky/VolumeMode.swift Clicky/SystemOutputMonitor.swift Clicky/PlaybackSettings.swift \
+    Tests/VolumeModeChecks.swift Tests/IconChecks.swift Tests/AudioChecks.swift -o "$scratch/AudioChecks"
 "$scratch/AudioChecks" "$app/Contents/Resources"
 echo "Verification complete. Removing project-local build artifacts."

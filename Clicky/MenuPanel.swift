@@ -6,7 +6,7 @@ enum ClickyTheme {
     static let surface = Color(hex: 0x24252B)
     static let elevated = Color(hex: 0x2C2D34)
     static let accent = Color(hex: 0xF2B880)
-    static let muted = Color(hex: 0x92939F)
+    static let muted = Color(hex: 0xA9AAB5)
     static let text = Color(hex: 0xF4F0E9)
 }
 
@@ -71,7 +71,7 @@ struct MenuPanel: View {
 
     private var header: some View {
         HStack(spacing: 10) {
-            Image(nsImage: NSApp.applicationIconImage)
+            Image(.clickyLogo)
                 .resizable().scaledToFit().frame(width: 40, height: 40)
                 .accessibilityHidden(true)
             VStack(alignment: .leading, spacing: 3) {
@@ -175,22 +175,51 @@ struct MenuPanel: View {
     }
 
     private var volumeControl: some View {
-        HStack(spacing: 12) {
-            Image(systemName: controller.volume == 0 ? "speaker.slash" : "speaker.wave.2")
-                .font(.system(size: 12)).foregroundStyle(ClickyTheme.muted).frame(width: 18)
-            Slider(value: $controller.volume, in: 0...1).controlSize(.small).accessibilityLabel("Volume")
-            Text("\(Int(controller.volume * 100))%")
-                .font(.system(size: 10, design: .monospaced)).foregroundStyle(ClickyTheme.muted).frame(width: 32)
+        VStack(alignment: .leading, spacing: 10) {
+            HStack {
+                Text(controller.volumeMode == .constant ? "Volume threshold" : "Volume")
+                    .font(.system(size: 12, weight: .semibold))
+                Spacer()
+                Button { controller.isVolumeLocked.toggle() } label: {
+                    Label(controller.isVolumeLocked ? "Locked" : "Unlocked",
+                          systemImage: controller.isVolumeLocked ? "lock.fill" : "lock.open.fill")
+                        .font(.system(size: 10, weight: .medium))
+                        .foregroundStyle(ClickyTheme.accent)
+                        .padding(.horizontal, 8).padding(.vertical, 5)
+                        .background(ClickyTheme.accent.opacity(0.12), in: Capsule())
+                }
+                .buttonStyle(.plain)
+                .help(controller.isVolumeLocked ? "Unlock to change volume" : "Lock this volume setting")
+                .accessibilityLabel(controller.isVolumeLocked ? "Unlock volume controls" : "Lock volume controls")
+            }
+            HStack(spacing: 12) {
+                Image(systemName: controller.volumeMode == .gradient && controller.volume == 0
+                      ? "speaker.slash" : "speaker.wave.2")
+                    .font(.system(size: 12)).foregroundStyle(ClickyTheme.muted).frame(width: 18)
+                if controller.volumeMode == .constant {
+                    Slider(value: Binding(get: { Double(controller.volumeThresholdStage) },
+                                          set: { controller.volumeThresholdStage = Int($0.rounded()) }),
+                           in: Double(VolumeControls.stageRange.lowerBound)...Double(VolumeControls.stageCount), step: 1)
+                        .controlSize(.small)
+                        .disabled(controller.isVolumeLocked)
+                        .accessibilityLabel("Mac volume threshold")
+                        .accessibilityValue("Stage \(controller.volumeThresholdStage) of \(VolumeControls.stageCount)")
+                    Text("\(controller.volumeThresholdStage)/\(VolumeControls.stageCount)")
+                        .font(.system(size: 10, design: .monospaced))
+                        .foregroundStyle(ClickyTheme.accent).frame(width: 36)
+                } else {
+                    Slider(value: $controller.volume, in: 0...1).controlSize(.small)
+                        .disabled(controller.isVolumeLocked).accessibilityLabel("Volume")
+                    Text("\(Int((controller.volume * 100).rounded()))%")
+                        .font(.system(size: 10, design: .monospaced)).foregroundStyle(ClickyTheme.muted).frame(width: 36)
+                }
+            }
         }
     }
 
     private var volumeModeControl: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Picker("Volume mode", selection: $controller.volumeMode) {
-                ForEach(VolumeMode.allCases) { mode in Text(mode.title).tag(mode) }
-            }
-            .pickerStyle(.segmented).controlSize(.small)
-            .accessibilityLabel("Volume mode")
+            VolumeModeControl(selection: $controller.volumeMode)
             Text(controller.volumeMode == .gradient
                  ? "Follows your Mac's volume."
                  : controller.constantVolumeStatus.message)
@@ -272,8 +301,7 @@ struct MenuPanel: View {
                 Text("Small adjustments. A different atmosphere.")
                     .font(.system(size: 11)).foregroundStyle(ClickyTheme.muted)
             }
-            settingSlider("Volume", detail: "How much character fills the room.", value: $controller.volume,
-                          low: "Quiet", high: "Loud")
+            volumeControl
             volumeModeControl
             settingSlider("Spatial width", detail: "Follow each key from left to right.", value: $controller.spatialWidth,
                           low: "Centered", high: "Wide")
@@ -351,6 +379,37 @@ struct MenuPanel: View {
         }
         .padding(.horizontal, 20).padding(.vertical, 10)
         .overlay(alignment: .top) { Divider().opacity(0.4) }
+    }
+}
+
+struct VolumeModeControl: View {
+    @Binding var selection: VolumeMode
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Volume mode")
+                .font(.system(size: 12, weight: .semibold)).foregroundStyle(ClickyTheme.text)
+            HStack(spacing: 4) {
+                ForEach(VolumeMode.allCases) { mode in
+                    Button { selection = mode } label: {
+                        Text(mode.title)
+                            .font(.system(size: 11, weight: .semibold))
+                            .foregroundStyle(selection == mode ? ClickyTheme.background : ClickyTheme.text)
+                            .frame(maxWidth: .infinity, minHeight: 30)
+                            .background(selection == mode ? ClickyTheme.accent : .clear,
+                                        in: RoundedRectangle(cornerRadius: 7))
+                            .contentShape(RoundedRectangle(cornerRadius: 7))
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityLabel("\(mode.title) volume")
+                    .accessibilityAddTraits(selection == mode ? .isSelected : [])
+                }
+            }
+            .padding(4)
+            .background(ClickyTheme.elevated, in: RoundedRectangle(cornerRadius: 10))
+        }
+        .accessibilityElement(children: .contain)
+        .accessibilityLabel("Volume mode")
     }
 }
 

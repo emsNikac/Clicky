@@ -3,21 +3,27 @@
 A native macOS menu bar app that gives your keyboard the sound of mechanical switches.
 
 Open `Clicky.xcodeproj` in Xcode and run the **Clicky** scheme. Requires macOS 15.7 or newer.
-Click the keyboard icon in the menu bar. Allow **Clicky** under **System Settings → Privacy & Security → Input Monitoring** for sounds in other applications. Quit and reopen Clicky if macOS requests it. Previews work without keyboard permission.
+Click the C icon in the menu bar. Allow **Clicky** under **System Settings → Privacy & Security → Input Monitoring** for sounds in other applications. Quit and reopen Clicky if macOS requests it. Previews work without keyboard permission.
 
 - 13 recorded switch profiles, searchable by name and sound character.
 - Physical left/right key positioning and row-specific recordings.
 - Separate press/release and space/return/delete samples where available.
 - Volume, spatial width, bright/deep tone, release level, and subtle pitch variation.
 - Defaults: 85% spatial width, 100% deep tone, 100% key release, and natural variation on. Saved user settings take precedence.
-- Gradient volume follows macOS volume. Constant volume compensates for system volume changes, keeping the loudness captured when enabled.
+- Gradient volume follows macOS volume. Constant volume follows it up to a chosen threshold on a 16-stage scale, then holds that level.
 - 32 overlapping audio voices, predecoded samples, and a peak limiter.
 - Persistent settings, optional start at login, and **Control–Option–Command–M** to pause.
 - No typed text is read or saved. No network access at runtime. Secure Input pauses monitoring.
 
 The keyboard diagram follows ANSI positioning. Additional ISO/JIS and keypad keys are mapped, but the diagram does not change layout. The normal macOS key stream does not provide strike pressure; variation is modeled. Spatial depth is approximated with stereo placement and row gain, rather than a binaural room simulation. Playback follows the system output device, including headphones.
 
-Constant mode remembers a separate reference level for each output device across launches. Switching back to Gradient and then Constant captures a new reference at the current system volume. Clicky's own volume slider still adjusts its loudness. System mute and zero output volume remain silent. Compensation is limited to +12 dB and passes through the peak limiter, so very low system volume can make clicks quieter than the target. Outputs that do not expose a hardware dB volume control fall back to following system volume; the panel explains when compensation is unavailable. Clicky never changes system volume.
+Constant mode uses a **Volume threshold** from **1/16 to 16/16**. At threshold **3/16**, clicks rise with Mac volume through stage 3 (18.75%), then are attenuated to hold that stage's level as Mac volume rises further. Below the threshold there is no compensation or boost. Fractional system-volume changes follow the same ceiling. Switching modes, outputs, or restarting does not capture a new target. The old saved references and manual correction values no longer affect playback.
+
+Volume controls start **Locked**, with a default threshold of **3/16**. Click **Locked** to unlock, change the stage manually, then click **Unlocked** to lock it again. The value and lock state are saved across launches. Both the menu and Settings show the same controls. Gradient retains its separate percentage slider and saved value; that percentage does not multiply the Constant threshold.
+
+The output's 16-stage dB lookup is built by inverting its native dB-to-slider conversion and cached until the output or its control configuration changes. This handles the built-in output's nonlinear mapping without relying on its inconsistent forward conversion or treating slider positions as linear audio gains. The current output volume is checked on volume notifications and before each key sound. Outputs with only slider volume use a ratio fallback; outputs with no readable volume control cannot enforce the threshold. These are software checks against the device's reported gain, not acoustic speaker measurements. Clicky never changes system volume or accesses the microphone. System mute and zero output volume remain silent.
+
+Volume attenuation happens after tone shaping and peak limiting to preserve brightness and attack. Maximum output includes a fixed 9 dB boost before the limiter and output headroom for transient peaks.
 
 ## Recording credits
 
@@ -29,4 +35,4 @@ To reproduce the bundled assets, run `python3 Tools/fetch_sounds.py` from this p
 
 ## Verification
 
-`Tools/verify.sh` builds the app in a project-local scratch directory, runs the audio and key mapping checks, and removes the scratch directory on exit. It does not launch the app, grant permissions, change login items, or write to an installed application.
+`Tools/verify.sh` builds the app in a project-local scratch directory and checks audio, key mapping, and the app icon returned by macOS. Its temporary app uses a separate bundle identifier and is unregistered before the scratch directory is removed on exit. It does not launch Clicky, grant permissions, change login items, or write to an installed application.

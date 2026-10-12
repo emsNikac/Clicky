@@ -1,23 +1,25 @@
 # Clicky identity
 
-Both logos were generated with the built-in image generation tool. The amber, sculpted C borrows the stepped edges of a mechanical keycap. The menu bar version simplifies the same shape into a monochrome template that macOS tints for light and dark menu bars.
+The current logos use a flat rounded C with soft capsule ends. The app icon places charcoal on muted apricot; the menu bar uses a monochrome alpha template that macOS tints for its current appearance. Both were generated with the built-in image generation tool.
 
 Final assets:
 
-- App icon master: `../Clicky/Assets.xcassets/AppIcon.appiconset/icon-1024.png`.
+- App icon master: `ClickyAppIcon.png`.
+- System app icon: `../Clicky/Resources/Clicky.icns`.
+- Header and application image: `../Clicky/Assets.xcassets/ClickyLogo.imageset/`.
 - Menu mark master: `ClickyMenuMark.png`.
 - Menu bar exports: `../Clicky/Assets.xcassets/ClickyMark.imageset/`.
 
-Run `bash Tools/export_icons.sh` from the project root to regenerate the smaller PNG sizes. These are shipping artwork assets, not build artifacts. The app icon has transparent outer margins; the menu bar mark uses only its alpha silhouette.
+Run `bash Tools/export_icons.sh` from the project root to regenerate the ICNS and smaller PNG sizes. The export removes its temporary iconset automatically. The header loads its dedicated image directly, and application startup sets the application image from the same asset.
 
-The prompts below omit the local output destination.
+The system app icon uses the standalone `Clicky.icns` resource named by `CFBundleIconFile`, without a catalog app-icon entry or `CFBundleIconName`. On the tested macOS installation, the catalog icon decoded correctly inside Clicky but Icon Services returned a placeholder to system callers such as Settings. Verification now compares the icon returned by `NSWorkspace` with the bundled ICNS. Temporary verification builds use a separate bundle identifier and unregister on cleanup so they do not replace the user's Clicky registration.
 
 ## App icon generation prompt
 
-> Use case: logo-brand. Asset type: final macOS application icon for Clicky, a menu bar app that gives laptop keys real mechanical switch sounds. Design one polished, creative icon based on a capital letter C. The C is a bold sculptural continuous keycap-shaped ribbon, rounded squared outline with an open right side; stepped mechanical keycap edges subtly suggest depth. Its open terminals have two short offset rhythm notches suggesting a satisfying click, without any separate pictograms. Warm amber/copper C on a dark graphite softly rounded square keycap tile, matching the app's existing graphite (#1B1C20) and amber (#F2B880) interface. Refined tactile satin material, restrained highlights and shallow depth, front-facing near orthographic, elegant and extremely readable at small sizes. One centered icon fills about 85% of a square 1024x1024 canvas, with transparent outer margins and rounded macOS-style tile corners. Use actual alpha transparency outside the tile. No other letters, no wordmark, no caption, no watermark, no extra objects, no mockup.
+> Use case: logo-brand. Asset type: final macOS application icon for Clicky, a small neutral keyboard sound utility. Primary request: replace the former sculptural gaming-like C with a timeless flat TWO DIMENSIONAL logo. One simple capital C, charcoal (#26272C), made from a smooth rounded geometric open ring with uniform bold stroke and completely rounded capsule ends. Friendly and understated, broad audience, no angular cuts, no notches, no lightning shapes, no gaming details. Center the C on a solid muted warm apricot (#F2C69E) rounded square macOS tile. No gradients at all, no 3D, no bevel, no extrusion, no surface texture, no lighting, no shadows, no gloss, no highlights, no perspective. Crisp flat vector-style graphic. Large C centered with generous clear space, suitable at tiny sizes. The outer tile fills 86 percent of a square 1024x1024 canvas; actual alpha transparent outer margins. Only this icon, no words, no captions, no mockup, no watermark.
 
 ## Menu bar generation prompt
 
-Reference image: the approved app icon master above. Transparent background enabled for both generations.
+Reference image: the new app icon master above. Transparent background enabled for both generations.
 
-> Use case: logo-brand. Asset type: final macOS menu bar template icon for Clicky. Input image is the approved Clicky app icon, a reference for identity. Create its matching small monochrome mark: retain the recognizable capital C with rounded square corners and the stepped/notched upper and lower open-right terminals. Simplify it into one perfectly flat solid BLACK silhouette on an actual transparent background, with clean smooth geometric edges. No tile, no rounded-square backdrop, no shadow, no gradients, no texture, no highlights, no perspective, no outline, no additional letters, no separate sound wave objects. A generous open right side and large clear inner negative space; make the letter's strokes bold and consistent so it reads at 18 pixels. Straight front-facing view. The C is centered in a square canvas and occupies 90 percent of width and height. The only visible pixels must belong to the black C.
+> Use case: logo-brand. Asset type: macOS menu bar template icon. Reference image: the new approved flat Clicky logo. Create exactly its smooth simple capital C as one solid pure black silhouette on an actual transparent background. Remove the apricot tile entirely. The C must be a smooth rounded geometric open ring with uniform bold stroke and fully rounded capsule tips, front-facing and two dimensional. Friendly and neutral. No corners, no angular notches or cuts, no extra objects, no background, no gradients, no shadows, no highlights, no texture, no perspective, no 3D, no words. Make its outline crisp and clean; the only visible pixels belong to the black C. Center the glyph on a square canvas with just 8 percent transparent padding, readable at 18 pixels.
