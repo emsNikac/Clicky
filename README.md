@@ -9,11 +9,14 @@ Click the keyboard icon in the menu bar. Allow **Clicky** under **System Setting
 - Physical left/right key positioning and row-specific recordings.
 - Separate press/release and space/return/delete samples where available.
 - Volume, spatial width, bright/deep tone, release level, and subtle pitch variation.
+- Gradient volume follows macOS volume. Constant volume compensates for system volume changes, keeping the loudness captured when enabled.
 - 32 overlapping audio voices, predecoded samples, and a peak limiter.
 - Persistent settings, optional start at login, and **Control–Option–Command–M** to pause.
 - No typed text is read or saved. No network access at runtime. Secure Input pauses monitoring.
 
 The keyboard diagram follows ANSI positioning. Additional ISO/JIS and keypad keys are mapped, but the diagram does not change layout. The normal macOS key stream does not provide strike pressure; variation is modeled. Spatial depth is approximated with stereo placement and row gain, rather than a binaural room simulation. Playback follows the system output device, including headphones.
+
+Constant mode remembers a separate reference level for each output device across launches. Switching back to Gradient and then Constant captures a new reference at the current system volume. Clicky's own volume slider still adjusts its loudness. System mute and zero output volume remain silent. Compensation is limited to +12 dB and passes through the peak limiter, so very low system volume can make clicks quieter than the target. Outputs that do not expose a hardware dB volume control fall back to following system volume; the panel explains when compensation is unavailable. Clicky never changes system volume.
 
 ## Recording credits
 

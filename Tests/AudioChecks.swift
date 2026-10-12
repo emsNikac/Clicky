@@ -22,6 +22,7 @@ struct AudioChecks {
     }
 
     private static func run() throws {
+        try VolumeModeChecks.run()
         let resources = URL(fileURLWithPath: CommandLine.arguments[1])
         try check(PhysicalKeyboard.rows.allSatisfy { abs($0.reduce(0) { $0 + $1.width } - 15) < 0.001 },
                   "Keyboard rows must align; a width overflow breaks stereo positioning.")
@@ -75,20 +76,34 @@ struct AudioChecks {
         try check(right.rightEnergy > right.leftEnergy * 2, "Right-hand key is not spatialized right.")
         let burst = try render(sample: sample, pan: 0, voiceCount: 32)
         try check(burst.peak > 0.01 && burst.peak <= 1.01, "32-voice burst is silent or clips: \(burst.peak).")
+        let baseline = try render(sample: sample, pan: 0, voiceCount: 1)
+        let compensated = try render(sample: sample, pan: 0, voiceCount: 1, gain: -12)
+        let originalAudibleEnergy = baseline.leftEnergy * pow(10, -30.0 / 10)
+        let raisedSystemAudibleEnergy = compensated.leftEnergy * pow(10, -18.0 / 10)
+        try check(abs(originalAudibleEnergy - raisedSystemAudibleEnergy) / originalAudibleEnergy < 0.001,
+                  "Rendered clicks got louder despite compensation for a 12 dB system increase.")
+        let boostedBurst = try render(sample: sample, pan: 0, voiceCount: 32, gain: VolumeCompensation.maximumBoost)
+        try check(boostedBurst.peak > 0.01 && boostedBurst.peak <= 1.01,
+                  "Constant compensation bypassed the limiter.")
         print("PASS: offline stereo placement and 32-voice limiting.")
+        print("PASS: rendered constant loudness and compensated burst limiting.")
         print("PASS: keyboard geometry, row mappings, and special key selection.")
     }
 
-    private static func render(sample: AVAudioPCMBuffer, pan: Float, voiceCount: Int) throws
+    private static func render(sample: AVAudioPCMBuffer, pan: Float, voiceCount: Int, gain: Float = 0) throws
         -> (leftEnergy: Double, rightEnergy: Double, peak: Float) {
         let engine = AVAudioEngine()
         let mixer = AVAudioMixerNode()
+        let equalizer = AVAudioUnitEQ(numberOfBands: 0)
+        equalizer.globalGain = gain
         let limiter = AVAudioUnitEffect(audioComponentDescription: AudioComponentDescription(
             componentType: kAudioUnitType_Effect, componentSubType: kAudioUnitSubType_PeakLimiter,
             componentManufacturer: kAudioUnitManufacturer_Apple, componentFlags: 0, componentFlagsMask: 0))
         engine.attach(mixer)
+        engine.attach(equalizer)
         engine.attach(limiter)
-        engine.connect(mixer, to: limiter, format: nil)
+        engine.connect(mixer, to: equalizer, format: nil)
+        engine.connect(equalizer, to: limiter, format: nil)
         engine.connect(limiter, to: engine.mainMixerNode, format: nil)
         let players = (0..<voiceCount).map { _ -> AVAudioPlayerNode in
             let player = AVAudioPlayerNode()

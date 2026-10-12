@@ -71,7 +71,7 @@ struct MenuPanel: View {
                     .foregroundStyle(ClickyTheme.accent)
             }.frame(width: 40, height: 40)
             VStack(alignment: .leading, spacing: 3) {
-                Text("clicky").font(.system(size: 23, weight: .bold, design: .rounded)).tracking(-0.7)
+                Text("Clicky").font(.system(size: 23, weight: .bold, design: .rounded)).tracking(-0.7)
                 Text("A little more character.").font(.system(size: 10)).foregroundStyle(ClickyTheme.muted)
             }
             Spacer()
@@ -98,7 +98,10 @@ struct MenuPanel: View {
     private var library: some View {
         VStack(alignment: .leading, spacing: 18) {
             selectedCard
-            volumeControl
+            VStack(alignment: .leading, spacing: 12) {
+                volumeControl
+                volumeModeControl
+            }
             HStack {
                 Text("SWITCH LIBRARY").font(.system(size: 10, weight: .bold)).tracking(1.5)
                 Spacer()
@@ -177,6 +180,21 @@ struct MenuPanel: View {
         }
     }
 
+    private var volumeModeControl: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Picker("Volume mode", selection: $controller.volumeMode) {
+                ForEach(VolumeMode.allCases) { mode in Text(mode.title).tag(mode) }
+            }
+            .pickerStyle(.segmented).controlSize(.small)
+            .accessibilityLabel("Volume mode")
+            Text(controller.volumeMode == .gradient
+                 ? "Follows your Mac's volume."
+                 : controller.constantVolumeStatus.message)
+                .font(.system(size: 10)).foregroundStyle(ClickyTheme.muted)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+    }
+
     private func categoryButton(_ title: String, category item: SwitchCategory?) -> some View {
         Button { category = item } label: {
             Text(title).font(.system(size: 10, weight: .medium))
@@ -252,6 +270,7 @@ struct MenuPanel: View {
             }
             settingSlider("Volume", detail: "How much character fills the room.", value: $controller.volume,
                           low: "Quiet", high: "Loud")
+            volumeModeControl
             settingSlider("Spatial width", detail: "Follow each key from left to right.", value: $controller.spatialWidth,
                           low: "Centered", high: "Wide")
             settingSlider("Tone", detail: "Shape the recording, from bright to deep.", value: $controller.depth,

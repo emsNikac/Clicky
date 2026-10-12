@@ -3,6 +3,7 @@ import AudioToolbox
 
 struct PlaybackSettings: Sendable {
     var volume: Float = 0.6
+    var volumeMode: VolumeMode = .gradient
     var width: Float = 0.65
     var depth: Float = 0.5
     var releaseLevel: Float = 0.5
@@ -25,7 +26,15 @@ final class SoundEngine: @unchecked Sendable {
     private var nextVoice = 0
     private var settings = PlaybackSettings()
     private var configurationObserver: NSObjectProtocol?
+    private var outputMonitor: SystemOutputMonitor?
+    private var outputVolume = SystemOutputVolume()
+    private var compensation = VolumeCompensation(references:
+        (UserDefaults.standard.dictionary(forKey: "constantVolumeReferences") ?? [:])
+            .compactMapValues { ($0 as? NSNumber)?.floatValue })
+    private var hasConfiguredSettings = false
+    private var resetVolumeReference = false
     var onError: (@Sendable (String) -> Void)?
+    var onVolumeStatus: (@Sendable (ConstantVolumeStatus) -> Void)?
 
     init() {
         engine.attach(mixer)
@@ -45,11 +54,17 @@ final class SoundEngine: @unchecked Sendable {
         equalizer.bands[1].filterType = .highShelf
         equalizer.bands[1].frequency = 3_000
         equalizer.bands.forEach { $0.bypass = false }
+        outputMonitor = SystemOutputMonitor(queue: queue) { [weak self] output in
+            guard let self else { return }
+            self.outputVolume = output
+            self.updateVolumeCompensation()
+        }
         configurationObserver = NotificationCenter.default.addObserver(
             forName: .AVAudioEngineConfigurationChange, object: engine, queue: nil
         ) { [weak self] _ in
             self?.queue.async { [weak self] in
                 guard let self, !self.samples.isEmpty else { return }
+                self.outputMonitor?.refresh(reinstallListeners: true)
                 do { try self.startEngine() } catch { self.onError?(error.localizedDescription) }
             }
         }
@@ -61,8 +76,13 @@ final class SoundEngine: @unchecked Sendable {
 
     func configure(_ settings: PlaybackSettings) {
         queue.async { [self] in
+            if hasConfiguredSettings, self.settings.volumeMode != settings.volumeMode,
+               settings.volumeMode == .constant { resetVolumeReference = true }
+            if settings.volumeMode == .gradient { resetVolumeReference = false }
             self.settings = settings
-            mixer.outputVolume = settings.volume * 0.65
+            hasConfiguredSettings = true
+            outputMonitor?.refresh()
+            updateVolumeCompensation()
             equalizer.bands[0].gain = (settings.depth - 0.5) * 10
             equalizer.bands[1].gain = (settings.depth - 0.5) * -8
         }
@@ -133,6 +153,22 @@ final class SoundEngine: @unchecked Sendable {
     }
 
     func silence() { queue.async { [self] in players.forEach { $0.stop() } } }
+
+    private func updateVolumeCompensation() {
+        let previousReferences = compensation.references
+        compensation.update(mode: settings.volumeMode, output: outputVolume, resetReference: resetVolumeReference)
+        if settings.volumeMode == .constant, compensation.status == .active || compensation.status == .limited {
+            resetVolumeReference = false
+        }
+        if compensation.references != previousReferences {
+            UserDefaults.standard.set(compensation.references, forKey: "constantVolumeReferences")
+        }
+        // Compensate before the limiter so low system volume cannot cause digital clipping.
+        equalizer.globalGain = compensation.gain
+        mixer.outputVolume = settings.volume * 0.65 *
+            (settings.volumeMode == .constant && outputVolume.isMuted ? 0 : 1)
+        onVolumeStatus?(compensation.status)
+    }
 
     private func startEngine() throws {
         if !engine.isRunning { engine.prepare(); try engine.start() }

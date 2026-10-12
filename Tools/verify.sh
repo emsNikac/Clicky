@@ -38,6 +38,7 @@ print("PASS: bundled recording integrity, license, and menu bar configuration.")
 PY
 xcrun swiftc -parse-as-library -module-cache-path "$scratch/ModuleCache" \
     Clicky/SwitchProfile.swift Clicky/PhysicalKeyboard.swift Clicky/RecordingDecoder.swift \
-    Tests/AudioChecks.swift -o "$scratch/AudioChecks"
+    Clicky/VolumeMode.swift Clicky/SystemOutputMonitor.swift \
+    Tests/VolumeModeChecks.swift Tests/AudioChecks.swift -o "$scratch/AudioChecks"
 "$scratch/AudioChecks" "$app/Contents/Resources"
 echo "Verification complete. Removing project-local build artifacts."

@@ -12,6 +12,9 @@ final class AppController {
         }
     }
     var volume = preference("volume", fallback: 0.6) { didSet { save("volume", volume) } }
+    var volumeMode = VolumeMode(rawValue: UserDefaults.standard.string(forKey: "volumeMode") ?? "") ?? .gradient {
+        didSet { UserDefaults.standard.set(volumeMode.rawValue, forKey: "volumeMode"); configureAudio() }
+    }
     var spatialWidth = preference("width", fallback: 0.65) { didSet { save("width", spatialWidth) } }
     var depth = preference("depth", fallback: 0.5) { didSet { save("depth", depth) } }
     var releaseLevel = preference("release", fallback: 0.5) { didSet { save("release", releaseLevel) } }
@@ -28,6 +31,7 @@ final class AppController {
     private(set) var isPreviewing = false
     private(set) var launchAtLogin = SMAppService.mainApp.status == .enabled
     private(set) var loginError: String?
+    private(set) var constantVolumeStatus: ConstantVolumeStatus = .unavailable
 
     @ObservationIgnored private let audio = SoundEngine()
     @ObservationIgnored private let monitor = KeyboardMonitor()
@@ -49,6 +53,9 @@ final class AppController {
     init() {
         audio.onError = { [weak self] message in
             Task { @MainActor [weak self] in self?.audioError = message }
+        }
+        audio.onVolumeStatus = { [weak self] status in
+            Task { @MainActor [weak self] in self?.constantVolumeStatus = status }
         }
         monitor.onKey = { [weak self] stroke in self?.receive(stroke) }
         monitor.onToggle = { [weak self] in self?.isEnabled.toggle() }
@@ -210,7 +217,7 @@ final class AppController {
     }
 
     private func configureAudio() {
-        audio.configure(PlaybackSettings(volume: Float(volume), width: Float(spatialWidth),
+        audio.configure(PlaybackSettings(volume: Float(volume), volumeMode: volumeMode, width: Float(spatialWidth),
                                          depth: Float(depth), releaseLevel: Float(releaseLevel),
                                          variation: naturalVariation))
     }

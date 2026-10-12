@@ -1,0 +1,47 @@
+# macOS metadata
+.DS_Store
+.AppleDouble
+._*
+
+# Xcode user settings and generated state
+xcuserdata/
+*.xcuserstate
+*.xccheckout
+*.xcscmblueprint
+*.moved-aside
+
+# Build products and local verification output
+/build/
+/Build/
+/DerivedData/
+/.verification/
+/.clicky-verification/
+/.verification-build.log
+*.app/
+*.xcarchive/
+*.dSYM/
+*.dSYM.zip
+*.ipa
+*.dmg
+
+# Swift Package Manager caches; keep Package.resolved tracked
+.build/
+.swiftpm/
+
+# Python development caches
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Local configuration and signing credentials
+.env
+.env.*
+!.env.example
+!.env.template
+*.p12
+*.p8
+*.pfx
+*.key
+*.mobileprovision
+*.provisionprofile
