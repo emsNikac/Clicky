@@ -1,0 +1,606 @@
+{
+  "repository": "https://github.com/tplai/kbsim",
+  "revision": "ba103f3b0afa9dab80447aa2e7e2ed80b6bd80e4",
+  "files": {
+    "alpaca_press_BACKSPACE.mp3": {
+      "source": "src/assets/audio/alpaca/press/BACKSPACE.mp3",
+      "sha256": "bcbe69320a16639ebbf487615af4844d98c1431f4ed48e3115aae91931244a94"
+    },
+    "alpaca_press_ENTER.mp3": {
+      "source": "src/assets/audio/alpaca/press/ENTER.mp3",
+      "sha256": "c0dea75600a9fe288bada040ccfcfd60c9ae0e1563c73e59163f073eef68cf75"
+    },
+    "alpaca_press_GENERIC_R0.mp3": {
+      "source": "src/assets/audio/alpaca/press/GENERIC_R0.mp3",
+      "sha256": "a9c99a85e884c567c5480ec1fbb74ec4b3874766f36a994ef327a7f046066e17"
+    },
+    "alpaca_press_GENERIC_R1.mp3": {
+      "source": "src/assets/audio/alpaca/press/GENERIC_R1.mp3",
+      "sha256": "4d6ea7c764cd652e2841795630027a6e862fd6a23749f0a48192e8f61c02afe9"
+    },
+    "alpaca_press_GENERIC_R2.mp3": {
+      "source": "src/assets/audio/alpaca/press/GENERIC_R2.mp3",
+      "sha256": "ee2d4f2c47c256f11aabbf3284e1ba7f1d70e12ec211b1c7a7c48d58584fbacc"
+    },
+    "alpaca_press_GENERIC_R3.mp3": {
+      "source": "src/assets/audio/alpaca/press/GENERIC_R3.mp3",
+      "sha256": "57e29520a382bb45a37f76ba38adb7cfd006b760c98c8d7dba2380efa75777d7"
+    },
+    "alpaca_press_GENERIC_R4.mp3": {
+      "source": "src/assets/audio/alpaca/press/GENERIC_R4.mp3",
+      "sha256": "21f13df227df7360dceb168d8b571e3af6cfa310c56a388c068a1b9c0e959775"
+    },
+    "alpaca_press_SPACE.mp3": {
+      "source": "src/assets/audio/alpaca/press/SPACE.mp3",
+      "sha256": "48e48452cad30f7aeaecebe19a7314e77d7cb28fd471b6c30cf81a899542ea7f"
+    },
+    "alpaca_release_BACKSPACE.mp3": {
+      "source": "src/assets/audio/alpaca/release/BACKSPACE.mp3",
+      "sha256": "d06aa6a2dd02a2621a74e14cd23235c142fa31c2ed81ecaac3f09d7084447d44"
+    },
+    "alpaca_release_ENTER.mp3": {
+      "source": "src/assets/audio/alpaca/release/ENTER.mp3",
+      "sha256": "f18e83f468aaba6daa88ae418e4ad60bf3b0b4be2f56d30901278acf417a3851"
+    },
+    "alpaca_release_GENERIC.mp3": {
+      "source": "src/assets/audio/alpaca/release/GENERIC.mp3",
+      "sha256": "2585ceae9f0aac668bc67c6c3c5ec11e64cf3f8cd6dc6486d8de31bde6751eb6"
+    },
+    "alpaca_release_SPACE.mp3": {
+      "source": "src/assets/audio/alpaca/release/SPACE.mp3",
+      "sha256": "79a95ffc290b935b00e441bebd81d4a05a863a244bca643254144d919b97aedd"
+    },
+    "blackink_press_BACKSPACE.mp3": {
+      "source": "src/assets/audio/blackink/press/BACKSPACE.mp3",
+      "sha256": "9e956add9665d10364505517cdfa664af0eac19b748648067092e83e1fbecf6f"
+    },
+    "blackink_press_ENTER.mp3": {
+      "source": "src/assets/audio/blackink/press/ENTER.mp3",
+      "sha256": "deabdc71c306a94e684f166f0a90c20dc61483c3d8b5a87a681890195b076d37"
+    },
+    "blackink_press_GENERIC_R0.mp3": {
+      "source": "src/assets/audio/blackink/press/GENERIC_R0.mp3",
+      "sha256": "4a50e78bb7502423f1ef8ba7c6fa235f9bf51f59bb3d5581b666074d7d9cc211"
+    },
+    "blackink_press_GENERIC_R1.mp3": {
+      "source": "src/assets/audio/blackink/press/GENERIC_R1.mp3",
+      "sha256": "66a3876ba178f41c8cf41333df8c616ac530138830df5349e8945c462a102ead"
+    },
+    "blackink_press_GENERIC_R2.mp3": {
+      "source": "src/assets/audio/blackink/press/GENERIC_R2.mp3",
+      "sha256": "e00b6d20cb56995025632a197124f37f1ef191acd2a562e967712e19505a79be"
+    },
+    "blackink_press_GENERIC_R3.mp3": {
+      "source": "src/assets/audio/blackink/press/GENERIC_R3.mp3",
+      "sha256": "e00b6d20cb56995025632a197124f37f1ef191acd2a562e967712e19505a79be"
+    },
+    "blackink_press_GENERIC_R4.mp3": {
+      "source": "src/assets/audio/blackink/press/GENERIC_R4.mp3",
+      "sha256": "26aebf55daa50e98c254e73b3ea4a824aaa232c33e9187d09aa1441cc1435363"
+    },
+    "blackink_press_SPACE.mp3": {
+      "source": "src/assets/audio/blackink/press/SPACE.mp3",
+      "sha256": "9d8dbd1e65503e67d7dfa384bb3f696624ac641ad589b1f92d6a1ebc1450d3cd"
+    },
+    "blackink_release_BACKSPACE.mp3": {
+      "source": "src/assets/audio/blackink/release/BACKSPACE.mp3",
+      "sha256": "74d8fd0811ac70043a81ee7c6f4a3956450c096556ccc86de29b57e5ef723c59"
+    },
+    "blackink_release_ENTER.mp3": {
+      "source": "src/assets/audio/blackink/release/ENTER.mp3",
+      "sha256": "d4b3ebbe0fe7d10849ddaab71893328fda345d3d5b4332c53df4e16f92cc8dd4"
+    },
+    "blackink_release_GENERIC.mp3": {
+      "source": "src/assets/audio/blackink/release/GENERIC.mp3",
+      "sha256": "cc45a0954eb9f3925f66dc874b38954416b96128d3eacd7e76ee0ee211b8c66a"
+    },
+    "blackink_release_SPACE.mp3": {
+      "source": "src/assets/audio/blackink/release/SPACE.mp3",
+      "sha256": "6a2070501972ae9baaee79bf44d7ede6689c648d3649deefde656ca3df16b996"
+    },
+    "bluealps_press_BACKSPACE.mp3": {
+      "source": "src/assets/audio/bluealps/press/BACKSPACE.mp3",
+      "sha256": "3b05076b2a4d9b1b6403b8bc1a8081593c07a68d16ea0fbf5f46fd1bb07d7ca9"
+    },
+    "bluealps_press_ENTER.mp3": {
+      "source": "src/assets/audio/bluealps/press/ENTER.mp3",
+      "sha256": "b308519bc66c53b09c118ea7325cf4dafd1232f8a66d0d8395d7bf077f4217e6"
+    },
+    "bluealps_press_GENERIC_R0.mp3": {
+      "source": "src/assets/audio/bluealps/press/GENERIC_R0.mp3",
+      "sha256": "89e002b10aae3a77aac88598e820cf166e9b6dd412a54055d24de49cedcbfb17"
+    },
+    "bluealps_press_GENERIC_R1.mp3": {
+      "source": "src/assets/audio/bluealps/press/GENERIC_R1.mp3",
+      "sha256": "45664b5e43be09c31f321738735b13a9e3b7c4f2d08e47a41b8ee81c136a39b2"
+    },
+    "bluealps_press_GENERIC_R2.mp3": {
+      "source": "src/assets/audio/bluealps/press/GENERIC_R2.mp3",
+      "sha256": "0669b6b0fce41ec679ad52c412dc603f2f03c8e8178c979ab694db1dd093daf9"
+    },
+    "bluealps_press_GENERIC_R3.mp3": {
+      "source": "src/assets/audio/bluealps/press/GENERIC_R3.mp3",
+      "sha256": "c799c08596894a1b6aa7887147576a177a87296ada4928c0b7593682e0a4d448"
+    },
+    "bluealps_press_GENERIC_R4.mp3": {
+      "source": "src/assets/audio/bluealps/press/GENERIC_R4.mp3",
+      "sha256": "04f02f87d6e9b53a2001832668fb1b985eb9a6573475e8c4608f5a51b4930eb0"
+    },
+    "bluealps_press_SPACE.mp3": {
+      "source": "src/assets/audio/bluealps/press/SPACE.mp3",
+      "sha256": "71ade35f9efda36fd9364e505d842955e49943c1e3bd806d2458ce7eb1b8dfe4"
+    },
+    "bluealps_release_BACKSPACE.mp3": {
+      "source": "src/assets/audio/bluealps/release/BACKSPACE.mp3",
+      "sha256": "5766598d9b2c8fbde22fc830657b8c890b6a5a21bd0b2b129ded9052e8e6506c"
+    },
+    "bluealps_release_ENTER.mp3": {
+      "source": "src/assets/audio/bluealps/release/ENTER.mp3",
+      "sha256": "7c39eb92bca0242c19b76fcada685887d0665e0805b33bcae467834ddce2c83a"
+    },
+    "bluealps_release_GENERIC.mp3": {
+      "source": "src/assets/audio/bluealps/release/GENERIC.mp3",
+      "sha256": "a0c45cad739e1db02e2dbe9ace2207da233f8860d5af6059c3c92b74231ff83a"
+    },
+    "bluealps_release_SPACE.mp3": {
+      "source": "src/assets/audio/bluealps/release/SPACE.mp3",
+      "sha256": "1af77aedf4d2b4a2b71501dc0db6a08bb9482e5383c00f7a6ffd79987d213c12"
+    },
+    "boxnavy_press_BACKSPACE.mp3": {
+      "source": "src/assets/audio/boxnavy/press/BACKSPACE.mp3",
+      "sha256": "55ea605789316cf93a38a8ee91a58d80f87bdc3660669fb0b251f7f8632578c3"
+    },
+    "boxnavy_press_ENTER.mp3": {
+      "source": "src/assets/audio/boxnavy/press/ENTER.mp3",
+      "sha256": "4af30083ecba8f88b0a4899a245221d91fbc0e83672020b30ebf5be3134916bb"
+    },
+    "boxnavy_press_GENERIC_R0.mp3": {
+      "source": "src/assets/audio/boxnavy/press/GENERIC_R0.mp3",
+      "sha256": "6b5bc813e28e3a6033d6d1f78708beddfa0316c34a28931a331e0d48f8881384"
+    },
+    "boxnavy_press_GENERIC_R1.mp3": {
+      "source": "src/assets/audio/boxnavy/press/GENERIC_R1.mp3",
+      "sha256": "aa06cf30fd1d07ca596b6c121197cb7e1f87e863ba154b871fb55ca14409c00b"
+    },
+    "boxnavy_press_GENERIC_R2.mp3": {
+      "source": "src/assets/audio/boxnavy/press/GENERIC_R2.mp3",
+      "sha256": "46f158f5fe4d42d92bb65da292a789cbdfd547512f9a40da52bbf693fe861d8f"
+    },
+    "boxnavy_press_GENERIC_R3.mp3": {
+      "source": "src/assets/audio/boxnavy/press/GENERIC_R3.mp3",
+      "sha256": "e04c92c2a828ca3cb41fd8b00b885bb9774fb66e91bee55d1e8826924dadbed6"
+    },
+    "boxnavy_press_GENERIC_R4.mp3": {
+      "source": "src/assets/audio/boxnavy/press/GENERIC_R4.mp3",
+      "sha256": "1767006a74c888863e85524e87dd28e212ab6804b9d3e86525c763b272af8214"
+    },
+    "boxnavy_press_SPACE.mp3": {
+      "source": "src/assets/audio/boxnavy/press/SPACE.mp3",
+      "sha256": "d0fd3687fc20e6f5c41230faab49c357d6424763223a650b5f9ec51a4186314f"
+    },
+    "boxnavy_release_BACKSPACE.mp3": {
+      "source": "src/assets/audio/boxnavy/release/BACKSPACE.mp3",
+      "sha256": "f353c9053eb474eb193d1fd4aa61ee6d77ba12020923d3153f4a5b1cc34678a6"
+    },
+    "boxnavy_release_ENTER.mp3": {
+      "source": "src/assets/audio/boxnavy/release/ENTER.mp3",
+      "sha256": "85120e10bbf88ec47fc11558122860892d4220e6cc9d19bba0b0a4cb184e1347"
+    },
+    "boxnavy_release_GENERIC.mp3": {
+      "source": "src/assets/audio/boxnavy/release/GENERIC.mp3",
+      "sha256": "960426e10dd1a9013fe86b8d853428eb75fca3f201c5b0a02bd8301b7e334d22"
+    },
+    "boxnavy_release_SPACE.mp3": {
+      "source": "src/assets/audio/boxnavy/release/SPACE.mp3",
+      "sha256": "ac626b52ea9e6003c2d49e131275aacf1e4d577c46f1bd3978d39f146acad78e"
+    },
+    "buckling_press_BACKSPACE.mp3": {
+      "source": "src/assets/audio/buckling/press/BACKSPACE.mp3",
+      "sha256": "466e5550d7493b48480e9852b2ba282c962294512a0df359d5f4d92c2abea3ae"
+    },
+    "buckling_press_ENTER.mp3": {
+      "source": "src/assets/audio/buckling/press/ENTER.mp3",
+      "sha256": "a37cb75240d81c9d5e28870da3bd450f6fff9ae131f9f9f89fd63ef50c056b98"
+    },
+    "buckling_press_GENERIC_R0.mp3": {
+      "source": "src/assets/audio/buckling/press/GENERIC_R0.mp3",
+      "sha256": "b97d221980d81247f2831d4cc343d78d57652f2fabf38dc857802f1bc2829874"
+    },
+    "buckling_press_GENERIC_R1.mp3": {
+      "source": "src/assets/audio/buckling/press/GENERIC_R1.mp3",
+      "sha256": "ff28ea62d1868f56781efc1eb9dd4cdc3198bdbb629875e18b5b7635d82d20d7"
+    },
+    "buckling_press_GENERIC_R2.mp3": {
+      "source": "src/assets/audio/buckling/press/GENERIC_R2.mp3",
+      "sha256": "c3cb73b029aee81bc661227de4fabf7e245e4dbddd76ec3657c6e30c257b2212"
+    },
+    "buckling_press_GENERIC_R3.mp3": {
+      "source": "src/assets/audio/buckling/press/GENERIC_R3.mp3",
+      "sha256": "144b197ea8bb2571ea33edb1b212f6c51555603de4bcbee1be756d07b66fd8fa"
+    },
+    "buckling_press_GENERIC_R4.mp3": {
+      "source": "src/assets/audio/buckling/press/GENERIC_R4.mp3",
+      "sha256": "ea1b98b076e812654ca57de75fa45ce75d7aa4564c3ce10cf57050495978fde4"
+    },
+    "buckling_press_SPACE.mp3": {
+      "source": "src/assets/audio/buckling/press/SPACE.mp3",
+      "sha256": "ed0ffe61be4c95bc2402e4b861d3ee00bfbae878a76d1ab114d8cf7dd712f827"
+    },
+    "buckling_release_BACKSPACE.mp3": {
+      "source": "src/assets/audio/buckling/release/BACKSPACE.mp3",
+      "sha256": "e17a16ff051c7f725fff488d91013dc45683125926db91ed55e63a4a87902157"
+    },
+    "buckling_release_ENTER.mp3": {
+      "source": "src/assets/audio/buckling/release/ENTER.mp3",
+      "sha256": "c2f5cde84b881c400052fc2048c0b0afa4c3ed1fc9dc0887793d6af37cf6e0e8"
+    },
+    "buckling_release_GENERIC.mp3": {
+      "source": "src/assets/audio/buckling/release/GENERIC.mp3",
+      "sha256": "87dcaa7624962a6fc43004772544420e7da243bdf4766d541e779557a9a08f38"
+    },
+    "buckling_release_SPACE.mp3": {
+      "source": "src/assets/audio/buckling/release/SPACE.mp3",
+      "sha256": "db003861bf8389e4db5f2aed43cef66fb2f8d4083e549d9a3d6e0cde48ebe8bc"
+    },
+    "cream_press_BACKSPACE.mp3": {
+      "source": "src/assets/audio/cream/press/BACKSPACE.mp3",
+      "sha256": "cb9512dd65874137874469ae3efaddf37ab2a0b1c66815217cc263a9ba201305"
+    },
+    "cream_press_ENTER.mp3": {
+      "source": "src/assets/audio/cream/press/ENTER.mp3",
+      "sha256": "78947470c4f3c7577b2df3dacc3d1ec414545b4b7ffe19fd0fe208bf6787aeb1"
+    },
+    "cream_press_GENERIC_R0.mp3": {
+      "source": "src/assets/audio/cream/press/GENERIC_R0.mp3",
+      "sha256": "8e3256ddb5a1aed42960a68ba632b3badecce0d60ff3ae61a1ac85e45e343451"
+    },
+    "cream_press_GENERIC_R1.mp3": {
+      "source": "src/assets/audio/cream/press/GENERIC_R1.mp3",
+      "sha256": "a45a8f73ce8698705205c80f531e87360737084746b95cb0e47c980e0f86a0b9"
+    },
+    "cream_press_GENERIC_R2.mp3": {
+      "source": "src/assets/audio/cream/press/GENERIC_R2.mp3",
+      "sha256": "9a54ada9209a4ecabd38616421de1a495df04bee3f0ec7b5247e2d8a507ac70f"
+    },
+    "cream_press_GENERIC_R3.mp3": {
+      "source": "src/assets/audio/cream/press/GENERIC_R3.mp3",
+      "sha256": "b7100272f9a80f7016c10da021e45550f3fcd817c21c172236f6e392881d0c93"
+    },
+    "cream_press_GENERIC_R4.mp3": {
+      "source": "src/assets/audio/cream/press/GENERIC_R4.mp3",
+      "sha256": "5472497fae5cd4ca1a70e7861ba990296a708dbd2402a1fab5e1f0f5e8ab92bf"
+    },
+    "cream_press_SPACE.mp3": {
+      "source": "src/assets/audio/cream/press/SPACE.mp3",
+      "sha256": "72f7101819fbd08cef4e2623e41e4979a7923ed15f94467796f92612eda4db7b"
+    },
+    "cream_release_BACKSPACE.mp3": {
+      "source": "src/assets/audio/cream/release/BACKSPACE.mp3",
+      "sha256": "331c4a71da8fbdb8f7c08362270350fc4fc7dbff5f97b0d2901c5b08c59cd1e7"
+    },
+    "cream_release_ENTER.mp3": {
+      "source": "src/assets/audio/cream/release/ENTER.mp3",
+      "sha256": "610aa949f67fb72bb86364c11d6a78b5fff75ca8e859dfc2c57b4a3ca728877f"
+    },
+    "cream_release_GENERIC.mp3": {
+      "source": "src/assets/audio/cream/release/GENERIC.mp3",
+      "sha256": "cbf79b16855fc3461ca1ff9a9e9a4134bcc09d093f7d98c5f6fdb3a2e0a94fad"
+    },
+    "cream_release_SPACE.mp3": {
+      "source": "src/assets/audio/cream/release/SPACE.mp3",
+      "sha256": "5a680831d4d67f8d36d459c0fd1ce00e1e3e2b2126de8481851f847133a3ed91"
+    },
+    "holypanda_press_BACKSPACE.mp3": {
+      "source": "src/assets/audio/holypanda/press/BACKSPACE.mp3",
+      "sha256": "293a4fb1ab19605348018c2e8fea805ef9454963aa69e2d26a06ed7217636889"
+    },
+    "holypanda_press_ENTER.mp3": {
+      "source": "src/assets/audio/holypanda/press/ENTER.mp3",
+      "sha256": "56d78f9b2b662ddd07255e2e130410536a0e877bdc639fef7e205edfd73558a1"
+    },
+    "holypanda_press_GENERIC_R0.mp3": {
+      "source": "src/assets/audio/holypanda/press/GENERIC_R0.mp3",
+      "sha256": "79b2811f3061c406ac9dcf802ae83d68f5fac78f8ed588a515e2550d2fcd05df"
+    },
+    "holypanda_press_GENERIC_R1.mp3": {
+      "source": "src/assets/audio/holypanda/press/GENERIC_R1.mp3",
+      "sha256": "cb9aefe55a81c48d6680d2ab8960220c20439e31ba1e32fd570106ed15c7fd40"
+    },
+    "holypanda_press_GENERIC_R2.mp3": {
+      "source": "src/assets/audio/holypanda/press/GENERIC_R2.mp3",
+      "sha256": "d346d76ef4c32f09be58556ccce843d7a88199214f9ebfdbf8b95226faf7ba3e"
+    },
+    "holypanda_press_GENERIC_R3.mp3": {
+      "source": "src/assets/audio/holypanda/press/GENERIC_R3.mp3",
+      "sha256": "4141524713fc19942166866c093777351f6f122acb9d79c7503981a5b906c7dc"
+    },
+    "holypanda_press_GENERIC_R4.mp3": {
+      "source": "src/assets/audio/holypanda/press/GENERIC_R4.mp3",
+      "sha256": "60ac51060cc0f1880016be2dffa05d3e3cf928290df37be998fb081bdf1ea66f"
+    },
+    "holypanda_press_SPACE.mp3": {
+      "source": "src/assets/audio/holypanda/press/SPACE.mp3",
+      "sha256": "bcba046d707877095ff2fc6d031091348515f9a6f724ee73c029831d105b71a6"
+    },
+    "holypanda_release_BACKSPACE.mp3": {
+      "source": "src/assets/audio/holypanda/release/BACKSPACE.mp3",
+      "sha256": "dd092c78c99322f3bf9c45c2095a91e6a91450889f2a0976fb9858397b360c06"
+    },
+    "holypanda_release_ENTER.mp3": {
+      "source": "src/assets/audio/holypanda/release/ENTER.mp3",
+      "sha256": "be0f86e85d17dce47a607960c37eb54240ff1648b8eb54b6293cb8beb38c17ed"
+    },
+    "holypanda_release_GENERIC.mp3": {
+      "source": "src/assets/audio/holypanda/release/GENERIC.mp3",
+      "sha256": "9b0859c4ccb2adabdd9e9447aa0684f3ba12f59551aaf1a4d867d458d4ca56b1"
+    },
+    "holypanda_release_SPACE.mp3": {
+      "source": "src/assets/audio/holypanda/release/SPACE.mp3",
+      "sha256": "980bfca97b89f2dc114f23cdb440c956a62137430d5e22682e011d16d43f2153"
+    },
+    "mxblack_press_BACKSPACE.mp3": {
+      "source": "src/assets/audio/mxblack/press/BACKSPACE.mp3",
+      "sha256": "c12a43f97c8fcd4ff1c5020ed0d3afb2a1f518c1d8e346f097ad3f0ea6f80c1b"
+    },
+    "mxblack_press_ENTER.mp3": {
+      "source": "src/assets/audio/mxblack/press/ENTER.mp3",
+      "sha256": "166096b6cd8522dc72c3664a6ac54067b70ad561f8f52a2644623b4283ecdc8b"
+    },
+    "mxblack_press_GENERIC_R0.mp3": {
+      "source": "src/assets/audio/mxblack/press/GENERIC_R0.mp3",
+      "sha256": "710bfacdfb8012c1a6012e6872e8d0688c7413dbc697724b1b77976bcf964948"
+    },
+    "mxblack_press_GENERIC_R1.mp3": {
+      "source": "src/assets/audio/mxblack/press/GENERIC_R1.mp3",
+      "sha256": "51195ef4d181184b3a6dd36d4b74f1f6f678d233af95467ae3ecd5f6927b5b32"
+    },
+    "mxblack_press_GENERIC_R2.mp3": {
+      "source": "src/assets/audio/mxblack/press/GENERIC_R2.mp3",
+      "sha256": "a908202ed34f3f6bf5ee5bd4cd66a8b52dc75af0eb6108698f7bbb69c07dc4a0"
+    },
+    "mxblack_press_GENERIC_R3.mp3": {
+      "source": "src/assets/audio/mxblack/press/GENERIC_R3.mp3",
+      "sha256": "e1af27d6895073a4ff6fda58ea952770a57ec7eaf59ab1b9aef417d90502c73f"
+    },
+    "mxblack_press_GENERIC_R4.mp3": {
+      "source": "src/assets/audio/mxblack/press/GENERIC_R4.mp3",
+      "sha256": "ad4ed6ae1a655d5b21e591f8b99a8d58eaf09e0864040e2892568fce1eb18fe0"
+    },
+    "mxblack_press_SPACE.mp3": {
+      "source": "src/assets/audio/mxblack/press/SPACE.mp3",
+      "sha256": "f3207500a27cb457105ec259d9dc495b24f88f233191e806c3074303f288d27f"
+    },
+    "mxblack_release_BACKSPACE.mp3": {
+      "source": "src/assets/audio/mxblack/release/BACKSPACE.mp3",
+      "sha256": "51789d22ed2091cc9b85c6fea37b56b49f8c9f6663948cdd6a92f822e6bd931e"
+    },
+    "mxblack_release_ENTER.mp3": {
+      "source": "src/assets/audio/mxblack/release/ENTER.mp3",
+      "sha256": "d3143442530392eeb391714ce892656472d797c0528beb4d6d8e5609fe904428"
+    },
+    "mxblack_release_GENERIC.mp3": {
+      "source": "src/assets/audio/mxblack/release/GENERIC.mp3",
+      "sha256": "a8e869c652f5410669d3e52070d36941177cac84e8289121d5cc91fe20857fd3"
+    },
+    "mxblack_release_SPACE.mp3": {
+      "source": "src/assets/audio/mxblack/release/SPACE.mp3",
+      "sha256": "f785078c5bad8080a4649ae1dc632b97e48b180fa32eb040788a4aec702fbe5b"
+    },
+    "mxblue_press_GENERIC_R0.mp3": {
+      "source": "src/assets/audio/mxblue/press/GENERIC_R0.mp3",
+      "sha256": "329a2cb041186579180cfd6c367b4680e82677689788210a96461ee43dc47115"
+    },
+    "mxblue_press_GENERIC_R1.mp3": {
+      "source": "src/assets/audio/mxblue/press/GENERIC_R1.mp3",
+      "sha256": "01baccca3a0b9a913063241c0eaade18d8fd6263d507fbfc4fdfa3a5a526389a"
+    },
+    "mxblue_press_GENERIC_R2.mp3": {
+      "source": "src/assets/audio/mxblue/press/GENERIC_R2.mp3",
+      "sha256": "9460f5ccd67aa5c01a125c26533fdbbcf1ce064bb049534bd7e306695fa845b4"
+    },
+    "mxblue_press_GENERIC_R3.mp3": {
+      "source": "src/assets/audio/mxblue/press/GENERIC_R3.mp3",
+      "sha256": "4193733efad92e044c6234811219c63075a7c547b6219fdc1f9c915965ba8269"
+    },
+    "mxblue_press_GENERIC_R4.mp3": {
+      "source": "src/assets/audio/mxblue/press/GENERIC_R4.mp3",
+      "sha256": "7a98c842c9f2eb650e4d8878cb9ba08428450b190c257d61d5a7dcfaa052d1b3"
+    },
+    "mxblue_release_GENERIC.mp3": {
+      "source": "src/assets/audio/mxblue/release/GENERIC.mp3",
+      "sha256": "243e8300cbe131678b8b4d1fd44e8aaa884636c6799af67b379408a96a9e5697"
+    },
+    "mxbrown_press_BACKSPACE.mp3": {
+      "source": "src/assets/audio/mxbrown/press/BACKSPACE.mp3",
+      "sha256": "8607e53ec586692caee08e61d6fa241fce7c7ef9dac219de92b632b90678a972"
+    },
+    "mxbrown_press_ENTER.mp3": {
+      "source": "src/assets/audio/mxbrown/press/ENTER.mp3",
+      "sha256": "870ac91262bf77ae898dad217bf033941634b8b162a2fa4a190416abd7aabfb7"
+    },
+    "mxbrown_press_GENERIC_R0.mp3": {
+      "source": "src/assets/audio/mxbrown/press/GENERIC_R0.mp3",
+      "sha256": "3ac7a03472bb63ae34f077b7f50d85adf5f1d4f93565c6c6608b23be7eca10ca"
+    },
+    "mxbrown_press_GENERIC_R1.mp3": {
+      "source": "src/assets/audio/mxbrown/press/GENERIC_R1.mp3",
+      "sha256": "9fb249de0ef96cb08602f47b53161338bc90a9d094a9c9b2ca33c513d5ca10a8"
+    },
+    "mxbrown_press_GENERIC_R2.mp3": {
+      "source": "src/assets/audio/mxbrown/press/GENERIC_R2.mp3",
+      "sha256": "227363367cf62d93b73994cde9124956aecd8bf44c63167909c1079ceae37688"
+    },
+    "mxbrown_press_GENERIC_R3.mp3": {
+      "source": "src/assets/audio/mxbrown/press/GENERIC_R3.mp3",
+      "sha256": "4eebb28d97138a226223532321f0351f993f1d21d804bd0f26af1d7e7f8309ec"
+    },
+    "mxbrown_press_GENERIC_R4.mp3": {
+      "source": "src/assets/audio/mxbrown/press/GENERIC_R4.mp3",
+      "sha256": "e4f7f0413ceff5892b130808efee2d50734a72f3babdcb2e238761a749fa99c6"
+    },
+    "mxbrown_press_SPACE.mp3": {
+      "source": "src/assets/audio/mxbrown/press/SPACE.mp3",
+      "sha256": "c29e11248a5cbfb845628174803ea240701a63d17770ea006defad2d48263017"
+    },
+    "mxbrown_release_BACKSPACE.mp3": {
+      "source": "src/assets/audio/mxbrown/release/BACKSPACE.mp3",
+      "sha256": "6a1cda06206811bd4ec3e17d49dfbb4f5128068d0994e7e6c001e2e13c90a4ae"
+    },
+    "mxbrown_release_ENTER.mp3": {
+      "source": "src/assets/audio/mxbrown/release/ENTER.mp3",
+      "sha256": "c3e4a000ef5540f485d760a5c4c06adf8d38d9814989302b8d5b42eab472dc4b"
+    },
+    "mxbrown_release_GENERIC.mp3": {
+      "source": "src/assets/audio/mxbrown/release/GENERIC.mp3",
+      "sha256": "5aaedc220e66eeda90adf64e519aa11d4ba0e3df9d8579ffb05af47dc0adbaf8"
+    },
+    "mxbrown_release_SPACE.mp3": {
+      "source": "src/assets/audio/mxbrown/release/SPACE.mp3",
+      "sha256": "eaf160ffea29918f08cc267033accdcfa6fe99992149dcf3de6f599ba66c63f7"
+    },
+    "redink_press_BACKSPACE.mp3": {
+      "source": "src/assets/audio/redink/press/BACKSPACE.mp3",
+      "sha256": "282c675e8d86efce6adc018cf57980d0dc63c580c5b219e8a98e89fb320d768b"
+    },
+    "redink_press_ENTER.mp3": {
+      "source": "src/assets/audio/redink/press/ENTER.mp3",
+      "sha256": "1d696fee93c33e96892cd6f5f3a68e0858c33053830286196d4284173a76d19e"
+    },
+    "redink_press_GENERIC_R0.mp3": {
+      "source": "src/assets/audio/redink/press/GENERIC_R0.mp3",
+      "sha256": "18b28ca6cb7325fa1aa657ae6dcc385dbec1da6cd43049b5010320fed8e98850"
+    },
+    "redink_press_GENERIC_R1.mp3": {
+      "source": "src/assets/audio/redink/press/GENERIC_R1.mp3",
+      "sha256": "1628e42cd7d2058b4b8f6f673c775703367f994441c6d9848be8770432bc3c2a"
+    },
+    "redink_press_GENERIC_R2.mp3": {
+      "source": "src/assets/audio/redink/press/GENERIC_R2.mp3",
+      "sha256": "058b2dca1f44764b490ca3616f24c2494d95f6a0268224616c5fd913bcc773bf"
+    },
+    "redink_press_GENERIC_R3.mp3": {
+      "source": "src/assets/audio/redink/press/GENERIC_R3.mp3",
+      "sha256": "b717b3a1357ca60ada345bd9d5f3db4805fca8b909c5ae93c27c3c4a56350cd8"
+    },
+    "redink_press_GENERIC_R4.mp3": {
+      "source": "src/assets/audio/redink/press/GENERIC_R4.mp3",
+      "sha256": "80884fb1aa62d0c4176a41a0d85575b94dffb2bfc24448d84fdf222b26089179"
+    },
+    "redink_press_SPACE.mp3": {
+      "source": "src/assets/audio/redink/press/SPACE.mp3",
+      "sha256": "b9aa24d955e1f6ffc111879aa16dcd0d68d2e3afb5624a9d2541e145cb1220f6"
+    },
+    "redink_release_BACKSPACE.mp3": {
+      "source": "src/assets/audio/redink/release/BACKSPACE.mp3",
+      "sha256": "6ceeb3c576297439fe9c989ee153787921b3b32102e6353ff76416377970d12d"
+    },
+    "redink_release_ENTER.mp3": {
+      "source": "src/assets/audio/redink/release/ENTER.mp3",
+      "sha256": "5bd81905d20614e2ec1772db01b8bd3b3c0c705a583fb1a2a8d1e98b1a83605e"
+    },
+    "redink_release_GENERIC.mp3": {
+      "source": "src/assets/audio/redink/release/GENERIC.mp3",
+      "sha256": "4d6b61a1530bb220c298c7257855ab9892146e515cfce8cf7e03cb3bb1fcc4e5"
+    },
+    "redink_release_SPACE.mp3": {
+      "source": "src/assets/audio/redink/release/SPACE.mp3",
+      "sha256": "d2f0e6f959854fd8328e984ed950d0c0ca5b23738cdece35e617e0cde2c505e9"
+    },
+    "topre_press_BACKSPACE.mp3": {
+      "source": "src/assets/audio/topre/press/BACKSPACE.mp3",
+      "sha256": "00db5edca14dc41ca89ed22ffc063d2bb30d5a5dfb829b014cc1fdfa88891c82"
+    },
+    "topre_press_ENTER.mp3": {
+      "source": "src/assets/audio/topre/press/ENTER.mp3",
+      "sha256": "ebc1ae71ea8097cdde7e6e57732a24761cfaf94ed78a66e3da83d2ab1df0054d"
+    },
+    "topre_press_GENERIC_R0.mp3": {
+      "source": "src/assets/audio/topre/press/GENERIC_R0.mp3",
+      "sha256": "a61130c11937d615179cdda1dc31497ed64138dae1dc931c331be74a82c62451"
+    },
+    "topre_press_GENERIC_R1.mp3": {
+      "source": "src/assets/audio/topre/press/GENERIC_R1.mp3",
+      "sha256": "7848f347aa76b850095ff03f98e04c325de28d6d30ed24b4451bd4bfcd73ecea"
+    },
+    "topre_press_GENERIC_R2.mp3": {
+      "source": "src/assets/audio/topre/press/GENERIC_R2.mp3",
+      "sha256": "3009e146a2f17e9eb98faf34050cf534bed24be2d2295b69a0cff28e5bc43f77"
+    },
+    "topre_press_GENERIC_R3.mp3": {
+      "source": "src/assets/audio/topre/press/GENERIC_R3.mp3",
+      "sha256": "f5b3b49d4f85c228b4be3fd1cf9c11a7aebee005a127b16d3cbd81dba9bb8003"
+    },
+    "topre_press_GENERIC_R4.mp3": {
+      "source": "src/assets/audio/topre/press/GENERIC_R4.mp3",
+      "sha256": "6553b1182524edca8342dcdbc7a92eab9c5791bb9cf516c5494629d672425164"
+    },
+    "topre_press_SPACE.mp3": {
+      "source": "src/assets/audio/topre/press/SPACE.mp3",
+      "sha256": "1fd27ffd614b7f18205df601b0daf339d4dd5217663165a99667625a6c0b0311"
+    },
+    "topre_release_BACKSPACE.mp3": {
+      "source": "src/assets/audio/topre/release/BACKSPACE.mp3",
+      "sha256": "a52a3b72613388739bdc46b5ed18960382465dcadded4501a755ab478eb4be91"
+    },
+    "topre_release_ENTER.mp3": {
+      "source": "src/assets/audio/topre/release/ENTER.mp3",
+      "sha256": "17eb8334ed0907eec01e83ca4ab9f9ad7d9fe7bf4d273e95c747d272b6a568d8"
+    },
+    "topre_release_GENERIC.mp3": {
+      "source": "src/assets/audio/topre/release/GENERIC.mp3",
+      "sha256": "0e8030c4e3c32bde47ec4873d30e2700611cea71de0ad9c5f0c48e5200b8a3cd"
+    },
+    "topre_release_SPACE.mp3": {
+      "source": "src/assets/audio/topre/release/SPACE.mp3",
+      "sha256": "07f21da1b02cf10b8ffe35f5d14bcc94feb57c9bc2a241ace3f429b443fbbe3a"
+    },
+    "turquoise_press_BACKSPACE.mp3": {
+      "source": "src/assets/audio/turquoise/press/BACKSPACE.mp3",
+      "sha256": "c1c81bc9abf87914467220d556d985c3b740d86ff1e865d1f26bdd29d19e2f87"
+    },
+    "turquoise_press_ENTER.mp3": {
+      "source": "src/assets/audio/turquoise/press/ENTER.mp3",
+      "sha256": "de635098bee3f1145491dbd667412a276b320e8183bf28b5626aab2fb50fd985"
+    },
+    "turquoise_press_GENERIC_R0.mp3": {
+      "source": "src/assets/audio/turquoise/press/GENERIC_R0.mp3",
+      "sha256": "4f08f0862685d5b3f536daefcfa98c9cccae14df4831274cdc415aa8876df330"
+    },
+    "turquoise_press_GENERIC_R1.mp3": {
+      "source": "src/assets/audio/turquoise/press/GENERIC_R1.mp3",
+      "sha256": "5e4d3bdd956760fd6831519549302db42aacf5b7abf162a6271b3032898276b3"
+    },
+    "turquoise_press_GENERIC_R2.mp3": {
+      "source": "src/assets/audio/turquoise/press/GENERIC_R2.mp3",
+      "sha256": "06ab4c0ffc7f37ed08a4d1abd5ad583b997a81427d52a0099e3f41cc5b7d6509"
+    },
+    "turquoise_press_GENERIC_R3.mp3": {
+      "source": "src/assets/audio/turquoise/press/GENERIC_R3.mp3",
+      "sha256": "b310eaff87450c28415459075c60dd1f817d84d38bf1e5602311edc072f8ba09"
+    },
+    "turquoise_press_GENERIC_R4.mp3": {
+      "source": "src/assets/audio/turquoise/press/GENERIC_R4.mp3",
+      "sha256": "a745cc55cc453c74f0f372ccce82dd9d2823ce96ff31d36a4bed13147858ccd4"
+    },
+    "turquoise_press_SPACE.mp3": {
+      "source": "src/assets/audio/turquoise/press/SPACE.mp3",
+      "sha256": "cc122ddcfb66fb1af5b2f6e42c1ac8a98d2a21b202ad270435df797ef9e16ef3"
+    },
+    "turquoise_release_BACKSPACE.mp3": {
+      "source": "src/assets/audio/turquoise/release/BACKSPACE.mp3",
+      "sha256": "2415a4c37fab40e12bcc715bac69313299dd30fc731021513a9c599c9cd827ab"
+    },
+    "turquoise_release_ENTER.mp3": {
+      "source": "src/assets/audio/turquoise/release/ENTER.mp3",
+      "sha256": "7a916fca4c1a27dd8a616f74eaabc97640c0f580bbf4b99b07200ff109f8142b"
+    },
+    "turquoise_release_GENERIC.mp3": {
+      "source": "src/assets/audio/turquoise/release/GENERIC.mp3",
+      "sha256": "086fbb780ab02f2dd214d8718b9a2420097be58af3a47ac5aa592873bf075817"
+    },
+    "turquoise_release_SPACE.mp3": {
+      "source": "src/assets/audio/turquoise/release/SPACE.mp3",
+      "sha256": "f08384868eadc73475bb3dc7a5cf6175f8a249d3dfbed9b5f3672319f5492833"
+    }
+  }
+}
